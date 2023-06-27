@@ -5,7 +5,7 @@
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  16/06/2023                         *
+# * Date:  27/06/2023                         *
 # *********************************************
 # ======================================================================
 # Readaptado do original de Thiago Nalli Valentim
@@ -66,21 +66,29 @@ BGW="\[\033[47m\]" # White (Branco)
 #=============================================
 # Configurações referentes ao usuário
 #=============================================
+
+# Obter o IP local
+IP=$(hostname -I | awk '{print $1}')
+
+# Obter a data atual
+DATE_TIME=$(date "+%d/%m/%Y %H:%M:%S")
  
 ## Verifica se é usuário root (UUID=0) ou usuário comum
 if [ $UID -eq "0" ]; then
 ## Cores e efeitos do Usuario root
  
-PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
+PS1="$NONE╭─╼$G[$BR\u$G]$BY😎$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE¤[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]-$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
 #PS1="$G┌─[$BR\u$G]$BY@$G[$BW${HOSTNAME%%.*}$G]$B:\w\n$G└─>$BR \\$ $NONE"
 
 else
  
 ## Cores e efeitos do usuário comum
- PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
+PS1="$NONE╭─╼$G[$BR\u$G]$BY🤓$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
+
+
+ #PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
  #PS1="$BR┌─[$BG\u$BR]$BY@$BR[$BW${HOSTNAME%%.*}$BR]$B:\w\n$BR└─>$BG \\$ $NONE"
- 
- 
+  
 fi # Fim da condição if
  
 ## Exemplos de PS1
@@ -275,12 +283,9 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
 export PATH=${PATH}:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/build-tools/32.0.0:$ANDROID_SDK_ROOT/gradle/bin
 
-
 export CAPACITOR_ANDROID_STUDIO_PATH="$HOME/android-studio/bin/studio.sh"
 
-
 export EXE4J_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -290,5 +295,5 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-
 export PATH=$PATH:/usr/local/bin/toSnode
+export PATH=$PATH:/usr/local/bin/toServer
