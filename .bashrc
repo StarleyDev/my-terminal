@@ -186,12 +186,12 @@ alias showPwdWifi='nmcli device wifi show-password'
 # Add your email and -d your site
 alias newCertbotNginx='sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email'
 
-alias renewCertbotAutNginx='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload nginx'" | sudo tee -a /etc/cron.d/renew_certbot'
+#alias renewCertbotAutNginx='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload nginx'" | 'sudo tee -a /etc/cron.d/renew_certbot''
 
 # Add your email and -d your site
 alias newCertbotApache='certbot certonly --apache --noninteractive --agree-tos --email'
 
-alias renewCertbotAutApache='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload apache2'" | sudo tee -a /etc/cron.d/renew_certbot'
+#alias renewCertbotAutApache='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload apache2'" | 'sudo tee -a /etc/cron.d/renew_certbot''
 
 #==========================
 # INSTALAÇÕES
