@@ -5,7 +5,7 @@
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  27/06/2023                         *
+# * Date:  28/06/2023                         *
 # *********************************************
 # ======================================================================
 # Readaptado do original de Thiago Nalli Valentim
@@ -128,7 +128,7 @@ fi # Fim do if do dircolor
 #==========================
 
 ## Instalação de outros ## sudo apt install android-tools-adb android-tools-fastboot
-alias vpnRemote='toInstall remmina'
+alias installRemmina='toInstall remmina'
 
 ## NGrok - Localhost na Web
 alias ngrok='cd ~/Documents/Tools/nGrok/'
@@ -138,10 +138,10 @@ alias torrentStremio='xdg-mime default smartcode-stremio.desktop x-scheme-handle
 alias torrentQbit='xdg-mime default qbittorrent.desktop x-scheme-handler/magnet'
  
 # Editar sources.list
-alias lists='sudo vim /etc/apt/sources.list'
+alias editSourcelist='sudo nano /etc/apt/sources.list'
  
 # atualizar o apt
-alias updateSystem='sudo apt update && sudo apt upgrade -y'
+alias systemUpdate='sudo apt update && sudo apt upgrade -y'
 
 # instalar aplicacoes
 alias toInstall='sudo apt install'
@@ -156,10 +156,10 @@ alias toRemoveAll='sudo apt remove --purge'
 alias toTrash='sudo apt autoremove'
  
 # Reparar o apt
-alias aptrepair='sudo apt -f install'
+alias aptRepair='sudo apt -f install'
  
 # Reparar o dpkg
-alias dpkgrepair='sudo dpkg --configure -a'
+alias dpkgRepair='sudo dpkg --configure -a'
 
 # Instalar Repositorios 
 alias addRepo='sudo add-apt-repository'
@@ -174,16 +174,24 @@ alias statushd='sudo gsmartcontrol'
 alias changeJava='sudo update-alternatives --config java'
 
 # Alterar versao javac
-alias chanveJavac='sudo update-alternatives --config javac'
+alias changeJavac='sudo update-alternatives --config javac'
 
 # Show pwd current wifi
 alias showPwdWifi='nmcli device wifi show-password'
 
 #==========================
-# MY SERVER
+# CREATE CERT NGINX
 #==========================
 
-alias startServerNode='cd /media/starley/ThisIsTheWay/Jobs/Hobby/server-node-for-app && npm run nodemon'
+# Add your email and -d your site
+alias newCertbotNginx='sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email'
+
+alias renewCertbotAutNginx='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload nginx'" | sudo tee -a /etc/cron.d/renew_certbot'
+
+# Add your email and -d your site
+alias newCertbotApache='certbot certonly --apache --noninteractive --agree-tos --email'
+
+alias renewCertbotAutApache='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload apache2'" | sudo tee -a /etc/cron.d/renew_certbot'
 
 #==========================
 # INSTALAÇÕES
@@ -222,14 +230,14 @@ alias sambaInstall='toInstall gnome-user-share -y && toInstall samba nautilus-sh
 
 alias reloadWifi='sudo systemctl restart network-manager.service && sudo systemctl restart networking.service'
 
-alias fixNpm='sudo chown -R `whoami` /usr/local'
+alias fixNpmPermissions='sudo chown -R `whoami` /usr/local'
 
 #==========================
 # REDIS - SERVER
 #==========================
 
-alias redstop='sudo service redis-server stop'
-alias redstart='redis-server'
+alias redisStop='sudo service redis-server stop'
+alias redisStart='redis-server'
 
 alias sharedPython='python3 -m http.server'
 
@@ -283,9 +291,12 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
 export PATH=${PATH}:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/build-tools/32.0.0:$ANDROID_SDK_ROOT/gradle/bin
 
+
 export CAPACITOR_ANDROID_STUDIO_PATH="$HOME/android-studio/bin/studio.sh"
 
+
 export EXE4J_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -294,6 +305,7 @@ export NVM_DIR="$HOME/.nvm"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
+
 
 export PATH=$PATH:/usr/local/bin/toSnode
 export PATH=$PATH:/usr/local/bin/toServer
