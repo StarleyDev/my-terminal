@@ -14,25 +14,25 @@
 #-----------------------------------------------
 # Configurações Gerais
 #-----------------------------------------------
- 
+
 # Se não estiver rodando interativamente, não fazer nada
 [ -z "$PS1" ] && return
- 
+
 # Não armazenar as linhas duplicadas ou linhas que começam com espaço no historico
 HISTCONTROL=ignoreboth
- 
+
 # Adicionar ao Historico e não substitui-lo
 shopt -s histappend
- 
+
 # Definições do comprimento e tamnho do historico.
 HISTSIZE=1000
 HISTFILESIZE=2000
- 
+
 #===========================================
 # Váriavies com as Cores
 #===========================================
 NONE="\[\033[0m\]" # Eliminar as Cores, deixar padrão)
- 
+
 ## Cores de Fonte
 K="\[\033[0;30m\]" # Black (Preto)
 R="\[\033[0;31m\]" # Red (Vermelho)
@@ -42,7 +42,7 @@ B="\[\033[0;34m\]" # Blue (Azul)
 M="\[\033[0;35m\]" # Magenta (Vermelho Claro)
 C="\[\033[0;36m\]" # Cyan (Ciano - Azul Claro)
 W="\[\033[0;37m\]" # White (Branco)
- 
+
 ## Efeito Negrito (bold) e cores
 BK="\[\033[1;30m\]" # Bold+Black (Negrito+Preto)
 BR="\[\033[1;31m\]" # Bold+Red (Negrito+Vermelho)
@@ -52,7 +52,7 @@ BB="\[\033[1;34m\]" # Bold+Blue (Negrito+Azul)
 BM="\[\033[1;35m\]" # Bold+Magenta (Negrito+Vermelho Claro)
 BC="\[\033[1;36m\]" # Bold+Cyan (Negrito+Ciano - Azul Claro)
 BW="\[\033[1;37m\]" # Bold+White (Negrito+Branco)
- 
+
 ## Cores de fundo (backgroud)
 BGK="\[\033[40m\]" # Black (Preto)
 BGR="\[\033[41m\]" # Red (Vermelho)
@@ -62,7 +62,7 @@ BGB="\[\033[44m\]" # Blue (Azul)
 BGM="\[\033[45m\]" # Magenta (Vermelho Claro)
 BGC="\[\033[46m\]" # Cyan (Ciano - Azul Claro)
 BGW="\[\033[47m\]" # White (Branco)
- 
+
 #=============================================
 # Configurações referentes ao usuário
 #=============================================
@@ -72,59 +72,58 @@ IP=$(hostname -I | awk '{print $1}')
 
 # Obter a data atual
 DATE_TIME=$(date "+%d/%m/%Y %H:%M:%S")
- 
+
 ## Verifica se é usuário root (UUID=0) ou usuário comum
 if [ $UID -eq "0" ]; then
-## Cores e efeitos do Usuario root
- 
-PS1="$NONE╭─╼$G[$BR\u$G]$BY😎$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE¤[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]-$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
+  ## Cores e efeitos do Usuario root
+
+  PS1="$NONE╭─╼$G[$BR\u$G]$BY😎$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE¤[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]-$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
 #PS1="$G┌─[$BR\u$G]$BY@$G[$BW${HOSTNAME%%.*}$G]$B:\w\n$G└─>$BR \\$ $NONE"
 
 else
- 
-## Cores e efeitos do usuário comum
-PS1="$NONE╭─╼$G[$BR\u$G]$BY🤓$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
 
+  ## Cores e efeitos do usuário comum
+  PS1="$NONE╭─╼$G[$BR\u$G]$BY🤓$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
 
- #PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
- #PS1="$BR┌─[$BG\u$BR]$BY@$BR[$BW${HOSTNAME%%.*}$BR]$B:\w\n$BR└─>$BG \\$ $NONE"
-  
+  #PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
+  #PS1="$BR┌─[$BG\u$BR]$BY@$BR[$BW${HOSTNAME%%.*}$BR]$B:\w\n$BR└─>$BG \\$ $NONE"
+
 fi # Fim da condição if
- 
+
 ## Exemplos de PS1
- 
+
 #PS1="\e[01;31m┌─[\e[01;35m\u\e[01;31m]──[\e[00;37m${HOSTNAME%%.*}\e[01;32m]:\w$\e[01;31m\n\e[01;31m└──\e[01;36m>>\e[00m"
- 
+
 # PS1='\[\e[m\n\e[1;30m\][$$:$PPID \j:\!\[\e[1;30m\]]\[\e[0;36m\] \T \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\]${SSH_TTY} \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[0;37m\] \n($SHLVL:\!)\$ '}
- 
+
 #PS1="\e[01;31m┌─[\e[01;35m\u\e[01;31m]──[\e[00;37m${HOSTNAME%%.*}\e[01;32m]:\w$\e[01;31m\n\e[01;31m└──\e[01;36m>>\e[00m"
- 
+
 # PS1="┌─[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
- 
+
 # PS1='[\u@\h \W]\$ '
- 
+
 #==========================
 # DIVERSOS
 #==========================
- 
+
 ## Habilitando suporte a cores para o ls e outros aliases
 ## Vê se o arquivo existe
 if [ -x /usr/bin/dircolors ]; then
-test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 
- LS_COLORS=di=34:ln=35:so=32:pi=33:ex=31:bd=34:cd=34:su=30:sg=30:tw=34:ow=34
-## Aliases (apelidos) para comandos
-alias ls='ls --color=auto'
-alias dir='dir --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+  LS_COLORS=di=34:ln=35:so=32:pi=33:ex=31:bd=34:cd=34:su=30:sg=30:tw=34:ow=34
+  ## Aliases (apelidos) para comandos
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi # Fim do if do dircolor
- 
+
 ## Aliases (apelidos) diversos
 
 #==========================
-# ACESSOS VPN
+# SOME CONFIGS
 #==========================
 
 ## Instalação de outros ## sudo apt install android-tools-adb android-tools-fastboot
@@ -136,10 +135,10 @@ alias ngrok='cd ~/Documents/Tools/nGrok/'
 # Modificando torrent Download
 alias torrentStremio='xdg-mime default smartcode-stremio.desktop x-scheme-handler/magnet'
 alias torrentQbit='xdg-mime default qbittorrent.desktop x-scheme-handler/magnet'
- 
+
 # Editar sources.list
 alias editSourcelist='sudo nano /etc/apt/sources.list'
- 
+
 # atualizar o apt
 alias systemUpdate='sudo apt update && sudo apt upgrade -y'
 
@@ -149,19 +148,19 @@ alias toInstall='sudo apt install'
 # desinstalar aplicacoes
 alias toRemove='sudo apt remove'
 
-# remover tudo 
+# remover tudo
 alias toRemoveAll='sudo apt remove --purge'
 
 # Remover Lixo
 alias toTrash='sudo apt autoremove'
- 
+
 # Reparar o apt
 alias aptRepair='sudo apt -f install'
- 
+
 # Reparar o dpkg
 alias dpkgRepair='sudo dpkg --configure -a'
 
-# Instalar Repositorios 
+# Instalar Repositorios
 alias addRepo='sudo add-apt-repository'
 
 # Listar todos os arquivos
@@ -170,14 +169,29 @@ alias ll='ls -la'
 # Abrir Gsmartcontrol
 alias statushd='sudo gsmartcontrol'
 
+# Get list of java
+alias getJavaList='update-java-alternatives -l'
+
 # Alterar versao java
 alias changeJava='sudo update-alternatives --config java'
 
 # Alterar versao javac
 alias changeJavac='sudo update-alternatives --config javac'
 
+# Altera JAVA_HOME
+alias setJavaHome='source selectJavaHome.sh'
+
 # Show pwd current wifi
 alias showPwdWifi='nmcli device wifi show-password'
+
+# Backup timeshift
+alias bk-sys='sudo timeshift-autosnap-apt'
+
+#==========================
+# RUN MACOS - Hakintosh
+#==========================
+
+alias runMac='cd /media/starley/ThisIsTheWay/MyDriver/S.O/MAC_Ventura/OSX-KVM/ && sudo ./OpenCore-Boot.sh'
 
 #==========================
 # CREATE CERT NGINX
@@ -200,7 +214,7 @@ alias newCertbotApache='certbot certonly --apache --noninteractive --agree-tos -
 # Corrige instalação Stremio
 alias fixStremio='wget http://archive.ubuntu.com/ubuntu/pool/universe/x/x264/libx264-152_0.152.2854+gite9a5903-2_amd64.deb && sudo dpkg -i libx264-152_0.152.2854+gite9a5903-2_amd64.deb'
 
-## Instalação de AndroidTools ## 
+## Instalação de AndroidTools ##
 alias adbToolsInstall='toInstall android-tools-adb android-tools-fastboot'
 
 ## Instalação do OBS Studio
@@ -278,34 +292,35 @@ alias zipandoapp='zipalign -v 4'
 #==============================================
 
 # Instalando versao 29 caso de atualização modificar essa linha // Atualizado 10/03/2020
-alias sdkinstall29='sdkmanager --sdk_root=/home/starley/Documents/Android "platform-tools" "platforms;android-29" "build-tools;29.0.3" "extras;android;m2repository"'
-alias sdkinstall30='sdkmanager --sdk_root=/home/starley/Documents/Android "platform-tools" "platforms;android-30" "build-tools;30.0.3" "extras;android;m2repository"'
+alias sdkinstall29='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-29" "build-tools;29.0.3" "extras;android;m2repository"'
+alias sdkinstall30='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-30" "build-tools;30.0.3" "extras;android;m2repository"'
+alias sdkinstall33='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-33" "build-tools;33.0.2" "extras;android;m2repository"'
+alias sdkinstall34='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-34" "build-tools;34.0.0" "extras;android;m2repository"'
 
-# Gradle Java Heap 
+# Gradle Java Heap
 alias gradleHeapJavaFix='mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties'
 
 #==============================================
 # Variaveis de ambiente desenvolvimento android
 #==============================================
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-export PATH=${PATH}:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/cmdline-tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/build-tools/32.0.0:$ANDROID_SDK_ROOT/gradle/bin
-
+export ANDROID_HOME="$HOME/Android"
+export ANDROID_SDK_ROOT="$HOME/Android"
+export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/33.0.2:$ANDROID_HOME/gradle/bin
 
 export CAPACITOR_ANDROID_STUDIO_PATH="$HOME/android-studio/bin/studio.sh"
 
+export EXE4J_JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin
 
-export EXE4J_JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin
-
+export PATH=$PATH:/usr/local/bin/toSnode
+export PATH=$PATH:/usr/local/bin/toServer
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-
-export PATH=$PATH:/usr/local/bin/toSnode
-export PATH=$PATH:/usr/local/bin/toServer
+PATH=~/.console-ninja/.bin:$PATH
