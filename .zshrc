@@ -135,25 +135,25 @@ BM="%B%F{magenta}" # Bold+Magenta
 BC="%B%F{cyan}" # Bold+Cyan
 BW="%B%F{white}" # Bold+White
 
-# Get the local IP
-IP=$(ipconfig getifaddr en0)
+# Otimização dinâmica: Recalcula o IP e a Data a cada execução de comando
+IP='$(hostname -I | awk "{print \$1}")'
+DATE_TIME='$(date "+%d/%m/%Y %H:%M:%S")'
 
-
-# Get the current date and time
-DATE_TIME=$(date "+%d/%m/%Y %H:%M:%S")
-
-# Define prompt for root
-if [[ $UID -eq 0 ]]; then
- # Prompt para o usuário comum
-PROMPT="${NONE}╭─╼${G}[${R}%n${G}]${Y}😎${G}[${B}%m${G}]${NONE}[${G}%~${NONE}]
-${NONE}┊─╼${G}[${C}${IP}${G}]${G}[${M}${DATE_TIME}${G}]
-${NONE}╰─╼ "
+# Aplicação do princípio DRY para isolar a lógica de variáveis do esqueleto do PS1
+if [ -n "$CONTAINER_ID" ]; then
+    [ "$CONTAINER_ID" = "herolink" ] && IDENTIFIER="${BG}[herolink]" || IDENTIFIER="${BC}[$CONTAINER_ID]"
+    ICON="🟡${IDENTIFIER}🟡"
+    USER_ICON="🐳"
 else
-    # Define prompt for regular user
-  PROMPT="${NONE}╭─╼${G}[${R}%n${G}]${Y}🤓${G}[${B}%m${G}]${NONE}[${G}%~${NONE}]
-${NONE}┊─╼${G}[${C}${IP}${G}]${G}[${M}${DATE_TIME}${G}]
-${NONE}╰─╼ "
+    ICON="🚧"
+    [ $UID -eq 0 ] && USER_ICON="😎" || USER_ICON="🤓"
 fi
+
+# Estrutura unificada avaliada dinamicamente por linha de comando
+PROMPT_HEADER="$NONE╭─╼ ${ICON}$G[$BR\u$G]$BY${USER_ICON}$G[$BY\h$G]$NONE[$W\w$NONE]"
+PROMPT_FOOTER="$NONE┊─╼ $G[$C${IP}$G]-$G[$M${DATE_TIME}$G]\n$NONE╰─╼ "
+
+PS1="${PROMPT_HEADER}\n${PROMPT_FOOTER}"
 
 # Enable color support for ls and other aliases if possible
 if [ -x /usr/bin/dircolors ]; then

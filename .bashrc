@@ -5,7 +5,7 @@
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  28/06/2023                         *
+# * Date:  18/06/2026                         *
 # *********************************************
 # ======================================================================
 # Readaptado do original de Thiago Nalli Valentim
@@ -67,40 +67,25 @@ BGW="\[\033[47m\]" # White (Branco)
 # Configurações referentes ao usuário
 #=============================================
 
-# Obter o IP local
-IP=$(hostname -I | awk '{print $1}')
+# Otimização dinâmica: Recalcula o IP e a Data a cada execução de comando
+IP='$(hostname -I | awk "{print \$1}")'
+DATE_TIME='$(date "+%d/%m/%Y %H:%M:%S")'
 
-# Obter a data atual
-DATE_TIME=$(date "+%d/%m/%Y %H:%M:%S")
-
-## Verifica se é usuário root (UUID=0) ou usuário comum
-if [ $UID -eq "0" ]; then
-  ## Cores e efeitos do Usuario root
-
-  PS1="$NONE╭─╼$G[$BR\u$G]$BY😎$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE¤[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]-$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
-#PS1="$G┌─[$BR\u$G]$BY@$G[$BW${HOSTNAME%%.*}$G]$B:\w\n$G└─>$BR \\$ $NONE"
-
+# Aplicação do princípio DRY para isolar a lógica de variáveis do esqueleto do PS1
+if [ -n "$CONTAINER_ID" ]; then
+    [ "$CONTAINER_ID" = "herolink" ] && IDENTIFIER="${BG}[herolink]" || IDENTIFIER="${BC}[$CONTAINER_ID]"
+    ICON="🟡${IDENTIFIER}🟡"
+    USER_ICON="🐳"
 else
+    ICON="🚧"
+    [ $UID -eq 0 ] && USER_ICON="😎" || USER_ICON="🤓"
+fi
 
-  ## Cores e efeitos do usuário comum
-  PS1="$NONE╭─╼$G[$BR\u$G]$BY🤓$G[\[\e[34m\]\h\[\e[0m\]$G]$NONE[\[\e[32m\]\w\[\e[0m\]]\n$NONE┊─╼$G[$C\[\e[36m\]$IP\[\e[0m\]$G]$G[$M\[\e[35m\]$DATE_TIME\[\e[0m\]$G]\n$NONE╰─╼ "
+# Estrutura unificada avaliada dinamicamente por linha de comando
+PROMPT_HEADER="$NONE╭─╼ ${ICON}$G[$BR\u$G]$BY${USER_ICON}$G[$BY\h$G]$NONE[$W\w$NONE]"
+PROMPT_FOOTER="$NONE┊─╼ $G[$C${IP}$G]-$G[$M${DATE_TIME}$G]\n$NONE╰─╼ "
 
-  #PS1="┌─╼[$BR\u$G]$BY@$G[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
-  #PS1="$BR┌─[$BG\u$BR]$BY@$BR[$BW${HOSTNAME%%.*}$BR]$B:\w\n$BR└─>$BG \\$ $NONE"
-
-fi # Fim da condição if
-
-## Exemplos de PS1
-
-#PS1="\e[01;31m┌─[\e[01;35m\u\e[01;31m]──[\e[00;37m${HOSTNAME%%.*}\e[01;32m]:\w$\e[01;31m\n\e[01;31m└──\e[01;36m>>\e[00m"
-
-# PS1='\[\e[m\n\e[1;30m\][$$:$PPID \j:\!\[\e[1;30m\]]\[\e[0;36m\] \T \d \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:\[\e[0;37m\]${SSH_TTY} \[\e[0;32m\]+${SHLVL}\[\e[1;30m\]] \[\e[1;37m\]\w\[\e[0;37m\] \n($SHLVL:\!)\$ '}
-
-#PS1="\e[01;31m┌─[\e[01;35m\u\e[01;31m]──[\e[00;37m${HOSTNAME%%.*}\e[01;32m]:\w$\e[01;31m\n\e[01;31m└──\e[01;36m>>\e[00m"
-
-# PS1="┌─[\[\e[34m\]\h\[\e[0m\]][\[\e[32m\]\w\[\e[0m\]]\n└─╼ "
-
-# PS1='[\u@\h \W]\$ '
+PS1="${PROMPT_HEADER}\n${PROMPT_FOOTER}"
 
 #==========================
 # DIVERSOS
@@ -126,11 +111,12 @@ fi # Fim do if do dircolor
 # SOME CONFIGS
 #==========================
 
+alias terminalUpdate='sudo cp ~/.bashrc /root/.bashrc'
+
 ## Instalação de outros ## sudo apt install android-tools-adb android-tools-fastboot
 alias installRemmina='toInstall remmina'
 
 ## NGrok - Localhost na Web
-alias ngrok='cd ~/Documents/Tools/nGrok/'
 
 # Modificando torrent Download
 alias torrentStremio='xdg-mime default smartcode-stremio.desktop x-scheme-handler/magnet'
@@ -303,7 +289,7 @@ alias gradleHeapJavaFix='mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >>
 #==============================================
 # Variaveis de ambiente desenvolvimento android
 #==============================================
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export ANDROID_HOME="$HOME/Android"
 export ANDROID_SDK_ROOT="$HOME/Android"
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/33.0.2:$ANDROID_HOME/gradle/bin
@@ -324,3 +310,8 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
 PATH=~/.console-ninja/.bin:$PATH
+
+# Created by `pipx` on 2025-11-16 01:04:17
+export PATH="$PATH:/home/starley/.local/bin"
+export EDITOR=gedit
+#export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
