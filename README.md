@@ -3,7 +3,7 @@
 > **Bem-vindo de volta!**
 > Se você acabou de instalar uma nova distro Linux ou quer renovar o visual do seu terminal, você está no lugar certo.
 
- *(Adicione uma imagem/GIF real do seu terminal aqui)*
+<img width="569" height="360" alt="image" src="https://github.com/user-attachments/assets/0fb004fc-346a-4ca9-9615-c2430d8c379a" />
 
 ---
 
