@@ -107,33 +107,43 @@ source $ZSH/oh-my-zsh.sh
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  28/11/2023                         *
+# * Date:  23/06/2026                         *
 # *********************************************
 #-----------------------------------------------
 # Configurações Gerais
 #-----------------------------------------------
 # Reset color
-NONE="%f%k"
+NONE="%f%k%b"
 
-# Font colors
-K="%F{black}" # Black
-R="%F{red}" # Red
-G="%F{green}" # Green
-Y="%F{yellow}" # Yellow
-B="%F{blue}" # Blue (Azul)
-M="%F{magenta}" # Magenta
-C="%F{cyan}" # Cyan
-W="%F{white}" # White
+## Cores de Fonte
+K="%F{black}"
+R="%F{red}"
+G="%F{green}"
+Y="%F{yellow}"
+B="%F{blue}"
+M="%F{magenta}"
+C="%F{cyan}"
+W="%F{white}"
 
-# Bold font colors
-BK="%B%F{black}" # Bold+Black
-BR="%B%F{red}" # Bold+Red
-BG="%B%F{green}" # Bold+Green
-BY="%B%F{yellow}" # Bold+Yellow
-BB="%B%F{blue}" # Bold+Blue
-BM="%B%F{magenta}" # Bold+Magenta
-BC="%B%F{cyan}" # Bold+Cyan
-BW="%B%F{white}" # Bold+White
+## Efeito Negrito (bold) e cores
+BK="%B%F{black}"
+BR="%B%F{red}"
+BG="%B%F{green}"
+BY="%B%F{yellow}"
+BB="%B%F{blue}"
+BM="%B%F{magenta}"
+BC="%B%F{cyan}"
+BW="%B%F{white}"
+
+## Cores de fundo (background)
+BGK="%K{black}"
+BGR="%K{red}"
+BGG="%K{green}"
+BGY="%K{yellow}"
+BGB="%K{blue}"
+BGM="%K{magenta}"
+BGC="%K{cyan}"
+BGW="%K{white}"
 
 # Otimização dinâmica: Recalcula o IP e a Data a cada execução de comando
 IP='$(hostname -I | awk "{print \$1}")'
