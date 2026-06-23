@@ -1,13 +1,31 @@
-# Olá eu mesmo...
+# 🛠️ My Terminal Style
 
-Bem vindo de volta!
+> **Bem-vindo de volta!**
+> Se você acabou de instalar uma nova distro Linux ou quer renovar o visual do seu terminal, você está no lugar certo.
 
-Sei que acabou de instalar um novo linux ou quer usar este estilo de terminal...
+ *(Adicione uma imagem/GIF real do seu terminal aqui)*
 
-Execute o seguinte comando no terminal...
+---
 
-`git clone https://github.com/StarleyDev/my-terminal.git && cp my-terminal/.bashrc ~/.bashrc && source ~/.bashrc && sudo cp ~/my-terminal/.bashrc /root/.bashrc && sudo source /root/.bashrc`
+### 🚀 Instalação Rápida
 
-Agora terá uma nova cara!
+Execute o comando abaixo no seu terminal para clonar o repositório e aplicar as configurações do `.bashrc` tanto para o seu usuário quanto para o `root`:
 
-Ultima atualização: 18/06/2026
+```bash
+git clone https://github.com/StarleyDev/my-terminal.git && \
+cp my-terminal/.bashrc ~/.bashrc && \
+source ~/.bashrc && \
+sudo cp ~/my-terminal/.bashrc /root/.bashrc && \
+sudo bash -c "source /root/.bashrc"
+
+```
+
+---
+
+### 📦 O que muda?
+
+* **Prompt Customizado:** Visual limpo e informativo.
+* **Aparência Consistente:** Mesma experiência visual como usuário comum ou `root`.
+* **Produtividade:** Aliases e funções otimizadas para o dia a dia.
+
+📅 *Última atualização: 23/06/2026*
