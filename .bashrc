@@ -1,11 +1,11 @@
 # *********************************************
 # * ~/.bashrc Personalizado para Ubuntu       *
-# * System: Linux Mint 21.2 Uma Cinnamon      *
+# * System: Linux Mint 22.3 Cinnamon          *
 # * local: /home/user/.bashrc                 *
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  18/06/2026                         *
+# * Date:  22/08/2026                         *
 # *********************************************
 # ======================================================================
 # Readaptado do original de Thiago Nalli Valentim
@@ -113,10 +113,6 @@ fi # Fim do if do dircolor
 
 alias terminalUpdate='sudo cp ~/.bashrc /root/.bashrc'
 
-## Instalação de outros ## sudo apt install android-tools-adb android-tools-fastboot
-alias installRemmina='toInstall remmina'
-
-## NGrok - Localhost na Web
 
 # Modificando torrent Download
 alias torrentStremio='xdg-mime default smartcode-stremio.desktop x-scheme-handler/magnet'
@@ -150,7 +146,7 @@ alias dpkgRepair='sudo dpkg --configure -a'
 alias addRepo='sudo add-apt-repository'
 
 # Listar todos os arquivos
-alias ll='ls -la'
+alias ll='ls -lhat'
 
 # Abrir Gsmartcontrol
 alias statushd='sudo gsmartcontrol'
@@ -172,12 +168,6 @@ alias showPwdWifi='nmcli device wifi show-password'
 
 # Backup timeshift
 alias bk-sys='sudo timeshift-autosnap-apt'
-
-#==========================
-# RUN MACOS - Hakintosh
-#==========================
-
-alias runMac='cd /media/starley/ThisIsTheWay/MyDriver/S.O/MAC_Ventura/OSX-KVM/ && sudo ./OpenCore-Boot.sh'
 
 #==========================
 # CREATE CERT NGINX
@@ -241,28 +231,6 @@ alias redisStart='redis-server'
 
 alias sharedPython='python3 -m http.server'
 
-#==============================================
-# Aliases para uso Ionic
-#==============================================
-
-# Apaga e adiciona o app ao celular
-alias irun='ionic cordova run android'
-
-# Cria a versao de teste Cordova
-alias icreate='ionic cordova build android'
-
-# Cria a versao de teste Capacitor
-alias icapacitorRun='ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradlew installDebug && cd ..'
-
-# Cria a versao de teste Capacitor
-alias icaprun='npm run build && npx cap copy android && npx cap open android '
-
-# Cria a versao de distribuição
-alias ibuild='ionic cordova build android --prod --release'
-
-# Inicia via web
-alias iserve='ionic serve --host=0.0.0.0'
-
 # Gerando keytool
 alias keytool='keytool -genkey -v -keystore'
 alias keytool1='-keyalg RSA -keysize 2048 -validity 100000 -alias'
@@ -272,16 +240,6 @@ alias assinandoapp='jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keys
 
 # Gerando App
 alias zipandoapp='zipalign -v 4'
-
-#==============================================
-# Aliases para gerenciar instalacao tools Android
-#==============================================
-
-# Instalando versao 29 caso de atualização modificar essa linha // Atualizado 10/03/2020
-alias sdkinstall29='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-29" "build-tools;29.0.3" "extras;android;m2repository"'
-alias sdkinstall30='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-30" "build-tools;30.0.3" "extras;android;m2repository"'
-alias sdkinstall33='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-33" "build-tools;33.0.2" "extras;android;m2repository"'
-alias sdkinstall34='sdkmanager --sdk_root=/home/starley/Android "platform-tools" "platforms;android-34" "build-tools;34.0.0" "extras;android;m2repository"'
 
 # Gradle Java Heap
 alias gradleHeapJavaFix='mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties'
@@ -298,20 +256,10 @@ export CAPACITOR_ANDROID_STUDIO_PATH="$HOME/android-studio/bin/studio.sh"
 
 export EXE4J_JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin
 
-export PATH=$PATH:/usr/local/bin/toSnode
-export PATH=$PATH:/usr/local/bin/toServer
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
 PATH=~/.console-ninja/.bin:$PATH
 
-# Created by `pipx` on 2025-11-16 01:04:17
-export PATH="$PATH:/home/starley/.local/bin"
-export EDITOR=gedit
-#export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export OLLAMA_HOST=0.0.0.0:11434

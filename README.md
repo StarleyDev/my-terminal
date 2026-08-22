@@ -28,4 +28,4 @@ sudo bash -c "source /root/.bashrc"
 * **Aparência Consistente:** Mesma experiência visual como usuário comum ou `root`.
 * **Produtividade:** Aliases e funções otimizadas para o dia a dia.
 
-📅 *Última atualização: 23/06/2026*
+📅 *Última atualização: 22/08/2026*
