@@ -1,11 +1,12 @@
 # *********************************************
-# * ~/.bashrc Personalizado para Ubuntu       *
-# * System: Linux Mint 22.3 Cinnamon          *
+# * ~/.bashrc Personalizado                   *
+# * Systems: Linux Mint 22.3 Cinnamon (Debian)*
+# *          CachyOS KDE Plasma (Arch)        *
 # * local: /home/user/.bashrc                 *
 # *                                           *
 # * Author: Starley Cazorla                   *
 # * E-Mail: starlleycom@gmail.com             *
-# * Date:  22/08/2026                         *
+# * Date:  02/11/2026                         *
 # *********************************************
 # ======================================================================
 # Readaptado do original de Thiago Nalli Valentim
@@ -27,6 +28,30 @@ shopt -s histappend
 # Definições do comprimento e tamnho do historico.
 HISTSIZE=1000
 HISTFILESIZE=2000
+
+#===========================================
+# Distro detection (Debian family vs Arch family)
+#===========================================
+# Reads ID and ID_LIKE from /etc/os-release in a subshell to avoid leaking its variables.
+# Mint -> "linuxmint ubuntu debian" | CachyOS -> "cachyos arch"
+DISTRO_FAMILY="unknown"
+if [ -r /etc/os-release ]; then
+    OS_TAGS=" $(. /etc/os-release && echo "$ID $ID_LIKE") "
+    case "$OS_TAGS" in
+        *" arch "*) DISTRO_FAMILY="arch" ;;
+        *" debian "* | *" ubuntu "*) DISTRO_FAMILY="debian" ;;
+    esac
+    unset OS_TAGS
+fi
+
+# Returns the first existing directory among the arguments
+first_existing_dir() {
+    local candidate
+    for candidate in "$@"; do
+        [ -d "$candidate" ] && echo "$candidate" && return 0
+    done
+    return 1
+}
 
 #===========================================
 # Váriavies com as Cores
@@ -67,8 +92,14 @@ BGW="\[\033[47m\]" # White (Branco)
 # Configurações referentes ao usuário
 #=============================================
 
+# Primary LAN IP (source address of the default route).
+# Portable replacement for `hostname -I`, which Arch's inetutils hostname does not support.
+local_ip() {
+    ip -4 route get 1.1.1.1 2>/dev/null | awk '{for (i = 1; i < NF; i++) if ($i == "src") { print $(i + 1); exit }}'
+}
+
 # Otimização dinâmica: Recalcula o IP e a Data a cada execução de comando
-IP='$(hostname -I | awk "{print \$1}")'
+IP='$(local_ip)'
 DATE_TIME='$(date "+%d/%m/%Y %H:%M:%S")'
 
 # Aplicação do princípio DRY para isolar a lógica de variáveis do esqueleto do PS1
@@ -108,42 +139,10 @@ fi # Fim do if do dircolor
 ## Aliases (apelidos) diversos
 
 #==========================
-# SOME CONFIGS
+# SOME CONFIGS (shared)
 #==========================
 
 alias terminalUpdate='sudo cp ~/.bashrc /root/.bashrc'
-
-
-# Modificando torrent Download
-alias torrentStremio='xdg-mime default smartcode-stremio.desktop x-scheme-handler/magnet'
-alias torrentQbit='xdg-mime default qbittorrent.desktop x-scheme-handler/magnet'
-
-# Editar sources.list
-alias editSourcelist='sudo nano /etc/apt/sources.list'
-
-# atualizar o apt
-alias systemUpdate='sudo apt update && sudo apt upgrade -y'
-
-# instalar aplicacoes
-alias toInstall='sudo apt install'
-
-# desinstalar aplicacoes
-alias toRemove='sudo apt remove'
-
-# remover tudo
-alias toRemoveAll='sudo apt remove --purge'
-
-# Remover Lixo
-alias toTrash='sudo apt autoremove'
-
-# Reparar o apt
-alias aptRepair='sudo apt -f install'
-
-# Reparar o dpkg
-alias dpkgRepair='sudo dpkg --configure -a'
-
-# Instalar Repositorios
-alias addRepo='sudo add-apt-repository'
 
 # Listar todos os arquivos
 alias ll='ls -lhat'
@@ -151,110 +150,151 @@ alias ll='ls -lhat'
 # Abrir Gsmartcontrol
 alias statushd='sudo gsmartcontrol'
 
-# Get list of java
-alias getJavaList='update-java-alternatives -l'
-
-# Alterar versao java
-alias changeJava='sudo update-alternatives --config java'
-
-# Alterar versao javac
-alias changeJavac='sudo update-alternatives --config javac'
-
 # Altera JAVA_HOME
 alias setJavaHome='source selectJavaHome.sh'
 
 # Show pwd current wifi
 alias showPwdWifi='nmcli device wifi show-password'
 
-# Backup timeshift
-alias bk-sys='sudo timeshift-autosnap-apt'
-
-#==========================
-# CREATE CERT NGINX
-#==========================
-
-# Add your email and -d your site
-alias newCertbotNginx='sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email'
-
-#alias renewCertbotAutNginx='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload nginx'" | 'sudo tee -a /etc/cron.d/renew_certbot''
-
-# Add your email and -d your site
-alias newCertbotApache='certbot certonly --apache --noninteractive --agree-tos --email'
-
-#alias renewCertbotAutApache='echo "0 0 * * *  root  certbot renew --quiet --no-self-upgrade --post-hook 'systemctl reload apache2'" | 'sudo tee -a /etc/cron.d/renew_certbot''
-
-#==========================
-# INSTALAÇÕES
-#==========================
-
-# Corrige instalação Stremio
-alias fixStremio='wget http://archive.ubuntu.com/ubuntu/pool/universe/x/x264/libx264-152_0.152.2854+gite9a5903-2_amd64.deb && sudo dpkg -i libx264-152_0.152.2854+gite9a5903-2_amd64.deb'
-
-## Instalação de AndroidTools ##
-alias adbToolsInstall='toInstall android-tools-adb android-tools-fastboot'
-
-## Instalação do OBS Studio
-alias obsInstall='toInstall ffmpeg -y && sudo add-apt-repository ppa:obsproject/obs-studio -y && updateSystem && toInstall obs-studio'
-
-## Instalação do SNAP
-alias snapInstall='sudo rm /etc/apt/preferences.d/nosnap.pref && updateSystem && toInstall snapd'
-
-## Instalação do FlameShot
-alias installFlameshot='sudo snapd install flameshot'
-
-## Instalação do WoeUsb
-alias woeusbInstall='toInstall git p7zip-full python3-pip python3-wxgtk4.0 -y && sudo pip3 install woeusb-ng'
-
-## Instalação MySql Comunity
-alias installMysql='sudo apt-get install mysql-server and mysql-community-server'
-
-## Instalação do Ionic Cordova
-alias installIonicCordova='npm i -g @ionic/cli cordova'
-
-## Instalação do samba e compartilhamento
-alias sambaInstall='toInstall gnome-user-share -y && toInstall samba nautilus-share -y && sudo gpasswd -a $USER sambashare'
-
-#==========================
-# CORREÇOES DO LINUX
-#==========================
-
-alias reloadWifi='sudo systemctl restart network-manager.service && sudo systemctl restart networking.service'
-
-alias fixNpmPermissions='sudo chown -R `whoami` /usr/local'
-
-#==========================
-# REDIS - SERVER
-#==========================
-
-alias redisStop='sudo service redis-server stop'
-alias redisStart='redis-server'
-
 alias sharedPython='python3 -m http.server'
 
-# Gerando keytool
-alias keytool='keytool -genkey -v -keystore'
-alias keytool1='-keyalg RSA -keysize 2048 -validity 100000 -alias'
+#==========================
+# DEBIAN FAMILY (Mint / Ubuntu)
+#==========================
+if [ "$DISTRO_FAMILY" = "debian" ]; then
 
-# Assinado App
-alias assinandoapp='jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore'
+    # Editar sources.list
+    alias editSourcelist='sudo nano /etc/apt/sources.list'
 
-# Gerando App
-alias zipandoapp='zipalign -v 4'
+    # atualizar o apt
+    alias systemUpdate='sudo apt update && sudo apt upgrade -y'
 
-# Gradle Java Heap
-alias gradleHeapJavaFix='mkdir -p ~/.gradle && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties'
+    # instalar aplicacoes
+    alias toInstall='sudo apt install'
+
+    # desinstalar aplicacoes
+    alias toRemove='sudo apt remove'
+
+    # remover tudo
+    alias toRemoveAll='sudo apt remove --purge'
+
+    # Remover Lixo
+    alias toTrash='sudo apt autoremove'
+
+    # Reparar o apt
+    alias aptRepair='sudo apt -f install'
+
+    # Reparar o dpkg
+    alias dpkgRepair='sudo dpkg --configure -a'
+
+    # Instalar Repositorios
+    alias addRepo='sudo add-apt-repository'
+
+    # Get list of java
+    alias getJavaList='update-java-alternatives -l'
+
+    # Alterar versao java
+    alias changeJava='sudo update-alternatives --config java'
+
+    # Alterar versao javac
+    alias changeJavac='sudo update-alternatives --config javac'
+
+    # Backup timeshift
+    alias bk-sys='sudo timeshift-autosnap-apt'
+
+    # Corrige instalação Stremio
+    alias fixStremio='wget http://archive.ubuntu.com/ubuntu/pool/universe/x/x264/libx264-152_0.152.2854+gite9a5903-2_amd64.deb && sudo dpkg -i libx264-152_0.152.2854+gite9a5903-2_amd64.deb'
+
+    ## Instalação de AndroidTools ##
+    alias adbToolsInstall='toInstall android-tools-adb android-tools-fastboot'
+
+    ## Instalação do OBS Studio
+    alias obsInstall='toInstall ffmpeg -y && sudo add-apt-repository ppa:obsproject/obs-studio -y && updateSystem && toInstall obs-studio'
+
+    ## Instalação do SNAP
+    alias snapInstall='sudo rm /etc/apt/preferences.d/nosnap.pref && updateSystem && toInstall snapd'
+
+    ## Instalação do FlameShot
+    alias installFlameshot='sudo snapd install flameshot'
+
+    ## Instalação do WoeUsb
+    alias woeusbInstall='toInstall git p7zip-full python3-pip python3-wxgtk4.0 -y && sudo pip3 install woeusb-ng'
+
+    ## Instalação MySql Comunity
+    alias installMysql='sudo apt-get install mysql-server and mysql-community-server'
+
+    ## Instalação do samba e compartilhamento
+    alias sambaInstall='toInstall gnome-user-share -y && toInstall samba nautilus-share -y && sudo gpasswd -a $USER sambashare'
+
+    alias reloadWifi='sudo systemctl restart network-manager.service && sudo systemctl restart networking.service'
+
+    alias fixNpmPermissions='sudo chown -R `whoami` /usr/local'
+
+    alias redisStop='sudo service redis-server stop'
+    alias redisStart='redis-server'
+
+fi
+
+#==========================
+# ARCH FAMILY (CachyOS / Arch)
+#==========================
+if [ "$DISTRO_FAMILY" = "arch" ]; then
+
+    # Same alias names as the Debian block, mapped to pacman
+    alias editSourcelist='sudo nano /etc/pacman.d/mirrorlist'
+    alias editPacmanConf='sudo nano /etc/pacman.conf'
+
+    alias systemUpdate='sudo pacman -Syu'
+    alias toInstall='sudo pacman -S --needed'
+    alias toRemove='sudo pacman -R'
+    alias toRemoveAll='sudo pacman -Rns'
+
+    # Removes orphan packages; pacman -Qtdq exits non-zero when there are none.
+    # The `function` keyword prevents alias expansion of the name at parse time.
+    unalias toTrash 2>/dev/null
+    function toTrash() {
+        local orphans
+        orphans=$(pacman -Qtdq) || { echo "No orphan packages."; return 0; }
+        sudo pacman -Rns $orphans
+    }
+
+    # Clears the package cache, keeping the 2 latest versions (requires pacman-contrib)
+    alias cacheClean='sudo paccache -rk2'
+
+    # Java (archlinux-java switches java and javac together)
+    alias getJavaList='archlinux-java status'
+    alias changeJava='sudo archlinux-java set'
+    alias changeJavac='sudo archlinux-java set'
+
+    # Manual Timeshift snapshot
+    alias bk-sys='sudo timeshift --create --comments "manual"'
+
+    alias adbToolsInstall='toInstall android-tools'
+    alias obsInstall='toInstall obs-studio'
+    alias installFlameshot='toInstall flameshot'
+    alias sambaInstall='toInstall samba'
+
+    alias reloadWifi='sudo systemctl restart NetworkManager.service'
+
+    # Arch ships Valkey (Redis-compatible) in the official repos
+    alias redisStop='sudo systemctl stop valkey'
+    alias redisStart='sudo systemctl start valkey'
+
+fi
 
 #==============================================
 # Variaveis de ambiente desenvolvimento android
 #==============================================
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+# Debian names JVM dirs with an arch suffix (-amd64); Arch does not
+JAVA_HOME_CANDIDATE=$(first_existing_dir /usr/lib/jvm/java-21-openjdk-amd64 /usr/lib/jvm/java-21-openjdk) && export JAVA_HOME="$JAVA_HOME_CANDIDATE"
+EXE4J_CANDIDATE=$(first_existing_dir /usr/lib/jvm/java-17-openjdk-amd64 /usr/lib/jvm/java-17-openjdk) && export EXE4J_JAVA_HOME="$EXE4J_CANDIDATE/bin"
+unset JAVA_HOME_CANDIDATE EXE4J_CANDIDATE
+
 export ANDROID_HOME="$HOME/Android"
 export ANDROID_SDK_ROOT="$HOME/Android"
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/33.0.2:$ANDROID_HOME/gradle/bin
 
 export CAPACITOR_ANDROID_STUDIO_PATH="$HOME/android-studio/bin/studio.sh"
-
-export EXE4J_JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/bin
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
